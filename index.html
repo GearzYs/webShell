@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" href="https://iconarchive.com/download/i99290/froyoshark/enkel/iTerm.ico" title="shell">
+    <title>Webshell</title>
+    <style>
+        body{
+            color: #fff;
+            background-color: #000;
+            font-family: monospace;
+            font-size: 1.5em;
+            overflow-y: scroll;
+        }
+        #shell{
+            margin: 0px 0px 90px 0px;
+        }
+        #shell:first-line{
+            color: #ff0;
+        }
+        #commandInput{
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+            background-color: #000;
+        }
+        input[type="text"],textarea{
+            float: left;
+            width: 80%;
+            height: 50px;
+            font-size: 25px;
+            color:#fff;
+            background-color: #000;
+            margin-left: 10px;
+            border:none;
+        }
+        input[type="submit"]{
+            width: 3%;
+            height: 50px;
+            float:right;
+            display:inline;
+            margin-right: 10px;
+            font-size: 1em;
+            background-color: #000;
+            border:none;
+            color: #fff;
+        }
+        hr {
+            border-color: green;
+            border-width: 4px;
+        }
+        #arrow {
+            margin-top: 5px;
+            float:left;
+            display:inline;
+            border: solid green;
+            border-radius: 5px;
+            border-width: 0 7px 7px 0;
+            padding: 14px;
+            transform: rotate(-45deg);
+            -webkit-transform: rotate(-45deg);
+            animation-name: trigger;
+            animation-duration: 1.5s;
+            animation-iteration-count: infinite;
+        }
+        @keyframes trigger {
+            from {border: solid green;
+                border-width: 0 7px 7px 0;}
+            to {border: solid black;
+                border-width: 0 7px 7px 0;}
+        }
+    </style>
+</head>
+<body>
+    <div id=shell>
+    </div>
+    <div id="commandInput">
+        <hr>
+        <i id="arrow"></i>
+        <form action='"""+session+"""'method="get">
+            <input id="commandbox" type="text" name="command" placeholder="Command..." autocomplete="off"/>
+            <input type="submit" name="send" value="&#9166;">
+        </form>
+    </div>
+    <div id="bottom"></div>
+    <script>
+        var logs = [];
+        const commandbox = document.getElementById("commandbox");
+        commandbox.focus();
+        commandbox.select();
+        var currentpos=logs.length-1;
+        const input = document.querySelector("input");
+        input.addEventListener("keyup", (event) => {
+            if (event.key === 'ArrowUp') {
+                if(currentpos>=0){
+                commandbox.value=logs[currentpos];
+                }
+                if(currentpos>0){
+                    currentpos--;
+                }
+            }
+            if (event.key === 'ArrowDown') {
+                if(currentpos<logs.length){
+                    currentpos++;
+                }
+                if (currentpos<logs.length) {
+                    commandbox.value=logs[currentpos];
+                }
+                else{
+                    commandbox.value="";
+                    currentpos=logs.length-1;
+                }
+            }
+        });
+        document.getElementById( 'bottom' ).scrollIntoView();
+    </script>
+</body>
+</html>
